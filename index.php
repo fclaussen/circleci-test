@@ -1,3 +1,6 @@
 <?php
+function esc_html( $str ) {
+	return $str;
+}
 $test = 'test';
-echo $test;
+echo esc_html( $test );
