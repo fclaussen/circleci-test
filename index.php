@@ -2,5 +2,5 @@
 function esc_html( $str ) {
 	return $str;
 }
-$test = 'test';
+$test = 'tester';
 echo esc_html( $test );
