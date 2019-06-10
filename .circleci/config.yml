@@ -32,7 +32,8 @@ jobs:
             - source-v1-{{ .Branch }}-
             - source-v1-
 
-      - checkout
+      - checkout:
+          path: ~/
 
       - save_cache:
           name: Saving Source Cache
