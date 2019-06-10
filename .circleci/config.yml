@@ -14,7 +14,7 @@ jobs:
     working_directory: ~/wp-content/themes/my-theme-name
     steps:
       - run: pwd
-      - run: cd ~ && ls -la
+      - run: cd ~/wp-content && ls -la
       - run: pwd
 
       # - run:
