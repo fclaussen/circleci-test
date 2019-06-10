@@ -84,9 +84,7 @@ jobs:
             cd themes/my-theme-name/src
             npm run prod
   deploy:
-    docker:
-      # Specify the version you desire here
-      - image: circleci/php:7.1-node-browsers
+    executor: my-executor
     steps:
       - run:
           name: Deploy Over SFTP
@@ -99,7 +97,8 @@ jobs:
               echo 'export FTP_PORT=$FTP_PORT_DEV' >> $BASH_ENV
               echo 'export FTP_REMOTE_ROOT=$FTP_REMOTE_ROOT_DEV' >> $BASH_ENV
             fi
-            node .circleci/deploy.js
+            cd .circleci
+            node deploy.js
             echo "We are online!"
 workflows:
   version: 2
@@ -114,3 +113,4 @@ workflows:
               only:
                 - master
                 - develop
+                - testing
