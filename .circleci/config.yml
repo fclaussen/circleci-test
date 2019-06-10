@@ -13,10 +13,6 @@ jobs:
     executor: my-executor
     working_directory: ~/wp-content/themes/my-theme-name
     steps:
-      - run: pwd
-      - run: cd ~/wp-content && ls -la
-      - run: pwd
-
       # - run:
       #     name: "Setting Up Environment Variables"
       #     command: |
@@ -34,7 +30,10 @@ jobs:
             - source-v1-{{ .Branch }}-
             - source-v1-
 
+      - run: ls -la
       - checkout
+
+      - run: ls -la
 
       - save_cache:
           name: Saving Source Cache
