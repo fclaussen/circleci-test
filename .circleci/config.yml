@@ -11,7 +11,8 @@ executors:
 jobs:
   build:
     executor: my-executor
-    # working_directory: ~/wp-content/themes/my-theme-name
+    environment:
+      THEME_PATH: ~/themes/my-theme-name
     steps:
       # - run:
       #     name: "Setting Up Environment Variables"
@@ -48,47 +49,51 @@ jobs:
           name: Restoring Composer Cache
           keys:
             # "composer.lock" can be used if it is committed to the repo
-            - v1-dependencies-{{ checksum "composer.json" }}
+            - v1-dependencies-{{ checksum "~/themes/my-theme-name/composer.json" }}
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
 
       - run:
           name: 'Install Composer dependencies'
-          command: composer install -n --prefer-dist
+          command: |
+            cd ~/themes/my-theme-name/
+            composer install -n --prefer-dist
 
       - save_cache:
           name: Saving Composer Cache
           working_directory: $THEME
-          key: v1-dependencies-{{ checksum "composer.json" }}
+          key: v1-dependencies-{{ checksum "~/themes/my-theme-name/composer.json" }}
           paths:
-            - ./vendor
+            - ~/themes/my-theme-name/vendor
 
       - run:
           name: 'Run PHPCS'
-          command: vendor/bin/phpcs --standard=WordPress-VIP-Go -sp --basepath=. --ignore=vendor *
+          command: |
+            cd ~/themes/my-theme-name/
+            vendor/bin/phpcs --standard=WordPress-VIP-Go -sp --basepath=. --ignore=vendor *
 
       - restore_cache:
           name: Restoring Node Modules Cache
           keys:
-            - node-v1-{{ checksum "./src/package.json" }}
+            - node-v1-{{ checksum "~/themes/my-theme-name/src/package.json" }}
             - node-v1-
 
       - run:
           name: 'Install npm packages'
           command: |
-            cd src
+            cd ~/themes/my-theme-name/src
             npm install
 
       - save_cache:
           name: Saving Node Modules Cache
-          key: node-v1-{{ checksum "./src/package.json" }}
+          key: node-v1-{{ checksum "~/themes/my-theme-name/src/package.json" }}
           paths:
-            - ./src/node_modules
+            - ~/themes/my-theme-name/src/node_modules
 
       - run:
           name: 'Build'
           command: |
-            cd src
+            cd ~/themes/my-theme-name/src
             npm run prod
   deploy:
     docker:
