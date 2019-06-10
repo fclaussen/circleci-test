@@ -83,12 +83,12 @@ jobs:
           command: |
             cd themes/my-theme-name/src
             npm run prod
-  deploy:
-    executor: my-executor
-    steps:
+
       - run:
-          name: Deploy Over SFTP
+          name: 'Deploying'
           command: |
+            cd ~/.circleci
+            npm install
             if [ "${CIRCLE_BRANCH}" = "develop" ]
             then
               echo 'export FTP_USERNAME=$FTP_USERNAME_DEV' >> $BASH_ENV
@@ -97,22 +97,10 @@ jobs:
               echo 'export FTP_PORT=$FTP_PORT_DEV' >> $BASH_ENV
               echo 'export FTP_REMOTE_ROOT=$FTP_REMOTE_ROOT_DEV' >> $BASH_ENV
             fi
-            ls -la
-            pwd
-            cd .circleci
             node deploy.js
-            echo "We are online!"
-workflows:
-  version: 2
-  build_and_deploy:
-    jobs:
-      - build
-      - deploy:
-          requires:
-            - build
-          filters:
-            branches:
-              only:
-                - master
-                - develop
-                - testing
+            echo "We are online"
+          branches:
+            only:
+              - master
+              - develop
+              - testing
