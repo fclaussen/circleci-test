@@ -21,14 +21,14 @@ jobs:
 
     steps:
       - run:
-        name: "Setting Up Environment Variables"
-        command: |
-          echo 'export THEME_PATH=~/themes/$THEME' >> $BASH_ENV
-          echo 'export SRC_PATH=~/themes/$THEME/src' >> $BASH_ENV
-          echo 'export COMPOSER_PATH=${THEME_PATH}/composer.json' >> $BASH_ENV
-          echo 'export VENDOR_PATH=${THEME_PATH}/vendor' >> $BASH_ENV
-          echo 'export PACKAGE_JSON_PATH=${THEME_PATH}/src/package.json' >> $BASH_ENV
-          echo 'export NODE_MODULES_PATH=${THEME_PATH}/src/node_modules' >> $BASH_ENV
+          name: "Setting Up Environment Variables"
+          command: |
+            echo 'export THEME_PATH=~/themes/$THEME' >> $BASH_ENV
+            echo 'export SRC_PATH=~/themes/$THEME/src' >> $BASH_ENV
+            echo 'export COMPOSER_PATH=${THEME_PATH}/composer.json' >> $BASH_ENV
+            echo 'export VENDOR_PATH=${THEME_PATH}/vendor' >> $BASH_ENV
+            echo 'export PACKAGE_JSON_PATH=${THEME_PATH}/src/package.json' >> $BASH_ENV
+            echo 'export NODE_MODULES_PATH=${THEME_PATH}/src/node_modules' >> $BASH_ENV
       - restore_cache:
           name: Restoring Source Cache
           keys:
