@@ -87,6 +87,8 @@ jobs:
       - run:
           name: 'Deploying!'
           command: |
+            rm -fr .git
+            rm -fr themes/my-theme-name/src
             cd .circleci
             npm install
             if [ "${CIRCLE_BRANCH}" = "develop" ]
