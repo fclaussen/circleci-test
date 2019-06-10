@@ -3,7 +3,7 @@
 # Check https://circleci.com/docs/2.0/language-php/ for more details
 #
 
-version: 2
+version: 2.1
 executors:
   my-executor:
     docker:
@@ -11,10 +11,6 @@ executors:
 jobs:
   build:
     executor: my-executor
-    branches:
-      only:
-        - master
-        - develop
     steps:
       - restore_cache:
           name: Restoring Source Cache
@@ -102,3 +98,7 @@ jobs:
             fi
             node deploy.js
             echo "We are online"
+          branches:
+            only:
+              - master
+              - develop
