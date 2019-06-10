@@ -87,7 +87,7 @@ jobs:
       - run:
           name: 'Deploying'
           command: |
-            cd ~/.circleci
+            cd .circleci
             npm install
             if [ "${CIRCLE_BRANCH}" = "develop" ]
             then
