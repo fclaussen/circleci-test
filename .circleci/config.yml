@@ -97,6 +97,8 @@ jobs:
               echo 'export FTP_PORT=$FTP_PORT_DEV' >> $BASH_ENV
               echo 'export FTP_REMOTE_ROOT=$FTP_REMOTE_ROOT_DEV' >> $BASH_ENV
             fi
+            ls -la
+            pwd
             cd .circleci
             node deploy.js
             echo "We are online!"
