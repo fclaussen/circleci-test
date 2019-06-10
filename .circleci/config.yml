@@ -7,7 +7,7 @@ version: 2.1
 executors:
   my-executor:
     docker:
-      - image: circleci/php:7.2
+      - image: circleci/php:7.2-node
 jobs:
   build:
     executor: my-executor
