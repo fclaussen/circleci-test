@@ -22,9 +22,9 @@ jobs:
       #       echo 'export VENDOR_PATH=${THEME_PATH}/vendor' >> $BASH_ENV
       #       echo 'export PACKAGE_JSON_PATH=${THEME_PATH}/src/package.json' >> $BASH_ENV
       #       echo 'export NODE_MODULES_PATH=${THEME_PATH}/src/node_modules' >> $BASH_ENV
-      -run: echo pwd
-      -run: echo ~
-      -run: echo $HOME
+      - run: echo pwd
+      - run: echo ~
+      - run: echo $HOME
       # - restore_cache:
       #     name: Restoring Source Cache
       #     keys:
