@@ -33,7 +33,7 @@ jobs:
             - source-v1-
 
       - checkout:
-          path: ~/
+          path: ~/wp-content
 
       - save_cache:
           name: Saving Source Cache
