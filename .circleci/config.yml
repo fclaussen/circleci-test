@@ -22,77 +22,72 @@ jobs:
       #       echo 'export VENDOR_PATH=${THEME_PATH}/vendor' >> $BASH_ENV
       #       echo 'export PACKAGE_JSON_PATH=${THEME_PATH}/src/package.json' >> $BASH_ENV
       #       echo 'export NODE_MODULES_PATH=${THEME_PATH}/src/node_modules' >> $BASH_ENV
-      - run: echo pwd
-      - run: echo ~
-      - run: echo $HOME
-      # - restore_cache:
-      #     name: Restoring Source Cache
-      #     keys:
-      #       - source-v1-{{ .Branch }}-{{ .Revision }}
-      #       - source-v1-{{ .Branch }}-
-      #       - source-v1-
 
-      # - checkout
+      - restore_cache:
+          name: Restoring Source Cache
+          keys:
+            - source-v1-{{ .Branch }}-{{ .Revision }}
+            - source-v1-{{ .Branch }}-
+            - source-v1-
 
-      # - save_cache:
-      #     name: Saving Source Cache
-      #     key: source-v1-{{ .Branch }}-{{ .Revision }}
-      #     paths:
-      #       - ~/.git
+      - checkout
+          path: ~/
 
-      # - run: sudo apt update # PHP CircleCI 2.0 Configuration File# PHP CircleCI 2.0 Configuration File sudo apt install zlib1g-dev libsqlite3-dev
+      - save_cache:
+          name: Saving Source Cache
+          key: source-v1-{{ .Branch }}-{{ .Revision }}
+          paths:
+            - ~/.git
 
-      # # Download and cache dependencies
-      # - restore_cache:
-      #     name: Restoring Composer Cache
-      #     keys:
-      #       # "composer.lock" can be used if it is committed to the repo
-      #       - v1-dependencies-{{ checksum $COMPOSER_PATH }}
-      #       # fallback to using the latest cache if no exact match is found
-      #       - v1-dependencies-
+      - run: sudo apt update # PHP CircleCI 2.0 Configuration File# PHP CircleCI 2.0 Configuration File sudo apt install zlib1g-dev libsqlite3-dev
 
-      # - run:
-      #     name: 'Install Composer dependencies'
-      #     command: |
-      #       cd $THEME_PATH
-      #       composer install -n --prefer-dist
+      # Download and cache dependencies
+      - restore_cache:
+          name: Restoring Composer Cache
+          keys:
+            # "composer.lock" can be used if it is committed to the repo
+            - v1-dependencies-{{ checksum "composer.json" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
 
-      # - save_cache:
-      #     name: Saving Composer Cache
-      #     working_directory: $THEME
-      #     key: v1-dependencies-{{ checksum "$COMPOSER_PATH" }}
-      #     paths:
-      #       - VENDOR_PATH
+      - run:
+          name: 'Install Composer dependencies'
+          command: composer install -n --prefer-dist
 
-      # - run:
-      #     name: 'Run PHPCS'
-      #     command: |
-      #       cd $THEME_PATH
-      #       vendor/bin/phpcs --standard=WordPress-VIP-Go -sp --basepath=. --ignore=vendor *
+      - save_cache:
+          name: Saving Composer Cache
+          working_directory: $THEME
+          key: v1-dependencies-{{ checksum "composer.json" }}
+          paths:
+            - ./vendor
 
-      # - restore_cache:
-      #     name: Restoring Node Modules Cache
-      #     keys:
-      #       - node-v1-{{ checksum "$PACKAGE_JSON_PATH" }}
-      #       - node-v1-
+      - run:
+          name: 'Run PHPCS'
+          command: vendor/bin/phpcs --standard=WordPress-VIP-Go -sp --basepath=. --ignore=vendor *
 
-      # - run:
-      #     name: 'Install npm packages'
-      #     command: |
-      #       cd $SRC_PATH
-      #       npm install
+      - restore_cache:
+          name: Restoring Node Modules Cache
+          keys:
+            - node-v1-{{ checksum "./src/package.json" }}
+            - node-v1-
 
-      # - save_cache:
-      #     name: Saving Node Modules Cache
-      #     key: node-v1-{{ checksum "$PACKAGE_JSON_PATH" }}
-      #     paths:
-      #       - NODE_MODULES_PATH
+      - run:
+          name: 'Install npm packages'
+          command: |
+            cd src
+            npm install
 
-      # - run:
-      #     name: 'Build'
-      #     command: |
-      #       cd $SRC_PATH
-      #       npm run prod
+      - save_cache:
+          name: Saving Node Modules Cache
+          key: node-v1-{{ checksum "./src/package.json" }}
+          paths:
+            - ./src/node_modules
+
+      - run:
+          name: 'Build'
+          command: |
+            cd src
+            npm run prod
   deploy:
     docker:
       # Specify the version you desire here
