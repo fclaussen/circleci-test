@@ -7,7 +7,7 @@ version: 2.1
 executors:
   my-executor:
     docker:
-      - image: circleci/php:7.1-node-browsers
+      - image: circleci/php:7.2
 jobs:
   build:
     executor: my-executor
@@ -31,7 +31,7 @@ jobs:
             - source-v1-
 
       - checkout
-          path: ~/
+          path: ../../
 
       - save_cache:
           name: Saving Source Cache
