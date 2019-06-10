@@ -11,7 +11,7 @@ executors:
 jobs:
   build:
     executor: my-executor
-    working_directory: ~/themes/my-theme-name
+    working_directory: ~/wp-content/themes/my-theme-name
     steps:
       # - run:
       #     name: "Setting Up Environment Variables"
