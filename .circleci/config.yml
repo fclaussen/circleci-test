@@ -19,10 +19,8 @@ jobs:
       #
       # - image: redis:2.8.19
 
-    environment:
-      THEME_PATH: ~/themes/$THEME
     steps:
-      # - run: echo 'export THEME=~/themes/$THEME' >> $BASH_ENV
+      - run: echo 'export THEME_PATH=~/themes/$THEME' >> $BASH_ENV
       - run: echo $THEME_PATH
       # - restore_cache:
       #     keys:
