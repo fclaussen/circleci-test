@@ -19,10 +19,7 @@ jobs:
             - source-v1-{{ .Branch }}-
             - source-v1-
 
-      - run: pwd && ls -la
       - checkout
-
-      - run: pwd && ls -la
 
       - save_cache:
           name: Saving Source Cache
@@ -105,4 +102,3 @@ jobs:
             only:
               - master
               - develop
-              - testing
