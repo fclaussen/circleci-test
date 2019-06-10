@@ -31,7 +31,6 @@ jobs:
             - source-v1-
 
       - checkout
-          path: ../../
 
       - save_cache:
           name: Saving Source Cache
