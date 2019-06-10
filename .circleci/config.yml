@@ -85,7 +85,7 @@ jobs:
             npm run prod
 
       - run:
-          name: 'Deploying'
+          name: 'Deploying!'
           command: |
             cd .circleci
             npm install
