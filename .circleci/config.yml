@@ -85,7 +85,6 @@ jobs:
           name: 'Deploying!'
           command: |
             rm -fr .git
-            rm -fr .circleci
             rm -fr vendor
             rm -fr themes/my-theme-name/src
             cd .circleci
