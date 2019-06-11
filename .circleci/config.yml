@@ -88,7 +88,7 @@ jobs:
       - run:
           name: Fix ssh Could not resolve hostname
           command: |
-            ssh-keyscan dev.trewknowledge.com >> ~/.ssh/known_hosts
+            ssh-keyscan 205.186.175.87 >> ~/.ssh/known_hosts
 
       - run:
           name: 'Deploying!'
