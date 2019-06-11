@@ -34,23 +34,28 @@ jobs:
           name: Restoring Composer Cache
           keys:
             # "composer.lock" can be used if it is committed to the repo
-            - v1-dependencies-{{ checksum "composer.json" }}
+            - v1-dependencies-{{ checksum "themes/my-theme-name/composer.json" }}
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
 
       - run:
           name: 'Install Composer dependencies'
-          command: composer install -n --prefer-dist
+          command: |
+            cd themes/my-theme-name/
+            composer install -n --prefer-dist
 
       - save_cache:
           name: Saving Composer Cache
-          key: v1-dependencies-{{ checksum "composer.json" }}
+          working_directory: $THEME
+          key: v1-dependencies-{{ checksum "themes/my-theme-name/composer.json" }}
           paths:
-            - vendor
+            - themes/my-theme-name/vendor
 
       - run:
           name: 'Run PHPCS'
-          command: vendor/bin/phpcs --standard=WordPress-VIP-Go -sp --basepath=. --ignore=vendor ./themes/my-theme-name/*.php
+          command: |
+            cd themes/my-theme-name/
+            vendor/bin/phpcs --standard=WordPress-VIP-Go -sp --basepath=. --ignore=vendor *.php
 
       - restore_cache:
           name: Restoring Node Modules Cache
