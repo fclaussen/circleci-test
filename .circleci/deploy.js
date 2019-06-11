@@ -8,7 +8,7 @@ var config = {
     port: process.env.FTP_PORT,
     localRoot: __dirname + "/../",
     remoteRoot: process.env.FTP_REMOTE_ROOT,
-    exclude: [ '.git' ],
+    exclude: [],
     include: ['*']
 }
 
