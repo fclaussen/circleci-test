@@ -41,12 +41,11 @@ jobs:
       - run:
           name: 'Install Composer dependencies'
           command: |
-            cd themes/my-theme-name/
+            cd ./themes/my-theme-name/
             composer install -n --prefer-dist
 
       - save_cache:
           name: Saving Composer Cache
-          working_directory: $THEME
           key: v1-dependencies-{{ checksum "themes/my-theme-name/composer.json" }}
           paths:
             - themes/my-theme-name/vendor
