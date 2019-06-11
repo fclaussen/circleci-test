@@ -89,7 +89,7 @@ jobs:
           name: 'Deploying!'
           command: |
             rm -fr .git
-            rm -fr vendor
+            rm -fr themes/my-theme-name/vendor
             rm -fr themes/my-theme-name/src
             rm -fr .circleci
             echo $REMOTE_HOSTKEY >> ~/.ssh/known_hosts
