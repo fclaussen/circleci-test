@@ -81,6 +81,10 @@ jobs:
             cd themes/my-theme-name/src
             npm run prod
 
+      - add_ssh_keys:
+          fingerprints:
+            - "e3:4c:66:d8:38:29:b8:82:05:44:a0:f1:2f:fc:2e:74"
+
       - run:
           name: 'Deploying!'
           command: |
@@ -88,7 +92,8 @@ jobs:
             rm -fr vendor
             rm -fr themes/my-theme-name/src
             rm -fr .circleci
-            rsync -avz ~/ dev.trewknowledge.com@s211321.gridserver.com:/domains/dev.trewknowledge.com/html/yellowadvances/test
+            echo $REMOTE_HOSTKEY >> ~/.ssh/known_hosts
+            rsync -avze ssh ~/ dev.trewknowledge.com@s211321.gridserver.com:/domains/dev.trewknowledge.com/html/yellowadvances/test
           branches:
             only:
               - master
