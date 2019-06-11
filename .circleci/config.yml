@@ -55,7 +55,7 @@ jobs:
           name: 'Run PHPCS'
           command: |
             cd themes/my-theme-name/
-            vendor/bin/phpcs --standard=WordPress-VIP-Go -sp --basepath=. --ignore=vendor *
+            vendor/bin/phpcs --standard=WordPress-VIP-Go -sp --basepath=. --ignore=vendor themes/my-theme-name/*.php
 
       - restore_cache:
           name: Restoring Node Modules Cache
@@ -85,6 +85,8 @@ jobs:
           name: 'Deploying!'
           command: |
             rm -fr .git
+            rm -fr .circleci
+            rm -fr vendor
             rm -fr themes/my-theme-name/src
             cd .circleci
             npm install
