@@ -93,7 +93,7 @@ jobs:
             rm -fr themes/my-theme-name/src
             ssh-keyscan 205.186.175.87 >> ~/.ssh/known_hosts
             cat ~/.ssh/known_hosts
-            ssh -o "StrictHostKeyChecking no" dev.trewknowledge.com@s211321.gridserver.com
+            ssh dev.trewknowledge.com@s211321.gridserver.com
           branches:
             only:
               - master
