@@ -86,16 +86,12 @@ jobs:
             - "e3:4c:66:d8:38:29:b8:82:05:44:a0:f1:2f:fc:2e:74"
 
       - run:
-          name: Fix ssh Could not resolve hostname
-          command: |
-            ssh-keyscan 205.186.175.87 >> ~/.ssh/known_hosts
-
-      - run:
           name: 'Deploying!'
           command: |
             rm -fr .git
             rm -fr vendor
             rm -fr themes/my-theme-name/src
+            ssh-keyscan 205.186.175.87 >> ~/.ssh/known_hosts
             ssh dev.trewknowledge.com@s211321.gridserver.com
           branches:
             only:
