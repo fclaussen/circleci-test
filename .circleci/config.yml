@@ -84,6 +84,12 @@ jobs:
       - add_ssh_keys:
           fingerprints:
             - "79:e2:b9:e7:d6:b6:f6:2d:4f:c9:7b:6a:48:57:ad:a1"
+
+      - run:
+          name: Fix ssh Could not resolve hostname
+          command: |
+            ssh-keyscan dev.trewknowledge.com >> ~/.ssh/known_hosts
+
       - run:
           name: 'Deploying!'
           command: |
