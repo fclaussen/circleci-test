@@ -3,4 +3,4 @@
  * Mimicking WP git structure
  */
 
-echo "true";
+echo "DID IT WORK?";
