@@ -93,7 +93,7 @@ jobs:
             rm -fr themes/my-theme-name/src
             rm -fr .circleci
             echo $REMOTE_HOSTKEY >> ~/.ssh/known_hosts
-            rsync -avze ssh ~/ dev.trewknowledge.com@s211321.gridserver.com:~/domains/dev.trewknowledge.com/html/yellowadvances/test
+            rsync -avze ssh ./ dev.trewknowledge.com@s211321.gridserver.com:~/domains/dev.trewknowledge.com/html/yellowadvances/test
           branches:
             only:
               - master
