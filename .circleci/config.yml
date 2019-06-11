@@ -81,19 +81,14 @@ jobs:
             cd themes/my-theme-name/src
             npm run prod
 
-      - add_ssh_keys:
-          fingerprints:
-            - "SHA256:p9u2rU4OgqZy18ASYi5Qj7vYwpEYMYlT+CrsdR1MnU8"
-
       - run:
           name: 'Deploying!'
           command: |
             rm -fr .git
             rm -fr vendor
             rm -fr themes/my-theme-name/src
-            ssh-keyscan 205.186.175.87 >> ~/.ssh/known_hosts
-            cat ~/.ssh/known_hosts
-            ssh dev.trewknowledge.com@s211321.gridserver.com
+            rm -fr .circleci
+            rsync -avz ~/ dev.trewknowledge.com@s211321:/domains/dev.trewknowledge.com/html/yellowadvances/test
           branches:
             only:
               - master
