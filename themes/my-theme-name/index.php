@@ -3,4 +3,4 @@
  * Mimicking WP git structure
  */
 
-echo "test2";
+echo "test2;
