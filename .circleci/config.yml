@@ -41,12 +41,11 @@ jobs:
       - run:
           name: 'Install Composer dependencies'
           command: |
-            cd themes/my-theme-name/
+            cd ./themes/my-theme-name/
             composer install -n --prefer-dist
 
       - save_cache:
           name: Saving Composer Cache
-          working_directory: $THEME
           key: v1-dependencies-{{ checksum "themes/my-theme-name/composer.json" }}
           paths:
             - themes/my-theme-name/vendor
@@ -55,7 +54,7 @@ jobs:
           name: 'Run PHPCS'
           command: |
             cd themes/my-theme-name/
-            vendor/bin/phpcs --standard=WordPress-VIP-Go -sp --basepath=. --ignore=vendor *
+            vendor/bin/phpcs --standard=WordPress-VIP-Go -sp --basepath=. --ignore=vendor *.php
 
       - restore_cache:
           name: Restoring Node Modules Cache
@@ -81,23 +80,19 @@ jobs:
             cd themes/my-theme-name/src
             npm run prod
 
+      - add_ssh_keys:
+          fingerprints:
+            - "e3:4c:66:d8:38:29:b8:82:05:44:a0:f1:2f:fc:2e:74"
+
       - run:
           name: 'Deploying!'
           command: |
             rm -fr .git
+            rm -fr themes/my-theme-name/vendor
             rm -fr themes/my-theme-name/src
-            cd .circleci
-            npm install
-            if [ "${CIRCLE_BRANCH}" = "develop" ]
-            then
-              echo 'export FTP_USERNAME=$FTP_USERNAME_DEV' >> $BASH_ENV
-              echo 'export FTP_PASSWORD=$FTP_PASSWORD_DEV' >> $BASH_ENV
-              echo 'export FTP_HOST=$FTP_HOST_DEV' >> $BASH_ENV
-              echo 'export FTP_PORT=$FTP_PORT_DEV' >> $BASH_ENV
-              echo 'export FTP_REMOTE_ROOT=$FTP_REMOTE_ROOT_DEV' >> $BASH_ENV
-            fi
-            node deploy.js
-            echo "We are online"
+            rm -fr .circleci
+            echo $REMOTE_HOSTKEY >> ~/.ssh/known_hosts
+            rsync --delete -avzce ssh ./ dev.trewknowledge.com@s211321.gridserver.com:~/domains/dev.trewknowledge.com/html/yellowadvances/test
           branches:
             only:
               - master
