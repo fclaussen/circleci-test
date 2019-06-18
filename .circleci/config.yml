@@ -3,97 +3,34 @@
 # Check https://circleci.com/docs/2.0/language-php/ for more details
 #
 
-version: 2.1
-executors:
-  my-executor:
-    docker:
-      - image: circleci/php:7.2-node
+version: 2
+workflows:
+  version: 2
+  build_and_deploy:
+    jobs:
+      - build
+      - deploy:
+          requires:
+            - build
+          filters:
+            branches:
+              only:
+                - master
+                - develop
 jobs:
   build:
-    executor: my-executor
+    docker:
+      - image: circleci/php:7.2-node
     steps:
-      - restore_cache:
-          name: Restoring Source Cache
-          keys:
-            - source-v1-{{ .Branch }}-{{ .Revision }}
-            - source-v1-{{ .Branch }}-
-            - source-v1-
-
       - checkout
-
-      - save_cache:
-          name: Saving Source Cache
-          key: source-v1-{{ .Branch }}-{{ .Revision }}
-          paths:
-            - ~/.git
-
-      - run: sudo apt update # PHP CircleCI 2.0 Configuration File# PHP CircleCI 2.0 Configuration File sudo apt install zlib1g-dev libsqlite3-dev
-
-      # Download and cache dependencies
-      - restore_cache:
-          name: Restoring Composer Cache
-          keys:
-            # "composer.lock" can be used if it is committed to the repo
-            - v1-dependencies-{{ checksum "themes/my-theme-name/composer.json" }}
-            # fallback to using the latest cache if no exact match is found
-            - v1-dependencies-
-
       - run:
-          name: 'Install Composer dependencies'
-          command: |
-            cd ./themes/my-theme-name/
-            composer install -n --prefer-dist
-
-      - save_cache:
-          name: Saving Composer Cache
-          key: v1-dependencies-{{ checksum "themes/my-theme-name/composer.json" }}
-          paths:
-            - themes/my-theme-name/vendor
-
-      - run:
-          name: 'Run PHPCS'
-          command: |
-            cd themes/my-theme-name/
-            vendor/bin/phpcs --standard=WordPress-VIP-Go -sp --basepath=. --ignore=vendor *.php
-
-      - restore_cache:
-          name: Restoring Node Modules Cache
-          keys:
-            - node-v1-{{ checksum "themes/my-theme-name/src/package.json" }}
-            - node-v1-
-
-      - run:
-          name: 'Install npm packages'
-          command: |
-            cd themes/my-theme-name/src
-            npm install
-
-      - save_cache:
-          name: Saving Node Modules Cache
-          key: node-v1-{{ checksum "themes/my-theme-name/src/package.json" }}
-          paths:
-            - themes/my-theme-name/src/node_modules
-
-      - run:
-          name: 'Build'
-          command: |
-            cd themes/my-theme-name/src
-            npm run prod
-
-      - add_ssh_keys:
-          fingerprints:
-            - "e3:4c:66:d8:38:29:b8:82:05:44:a0:f1:2f:fc:2e:74"
-
+          name: 'PHPCS'
+          command: echo "running PHPCS"
+  deploy:
+    docker:
+      - image: circleci/php:7.2-node
+    steps:
+      - checkout
       - run:
           name: 'Deploying!'
-          command: |
-            rm -fr .git
-            rm -fr themes/my-theme-name/vendor
-            rm -fr themes/my-theme-name/src
-            rm -fr .circleci
-            echo $REMOTE_HOSTKEY >> ~/.ssh/known_hosts
-            rsync --delete -avzce ssh ./ dev.trewknowledge.com@s211321.gridserver.com:~/domains/dev.trewknowledge.com/html/yellowadvances/test
-          branches:
-            only:
-              - master
-              - develop
+          command: echo "WE ARE GOING TO DEPLOY!"
