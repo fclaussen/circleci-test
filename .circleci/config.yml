@@ -25,7 +25,7 @@ jobs:
       - checkout
       - run:
           name: 'PHPCS'
-          command: echo "running PHPCS!"
+          command: echo "running PHPCS"
   deploy:
     docker:
       - image: circleci/php:7.2-node
